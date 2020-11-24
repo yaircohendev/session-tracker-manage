@@ -1,0 +1,42 @@
+<div class="container">
+  <h1>Session List</h1>
+  <div class="table" *ngIf="allSessions$ | async; let allSessions; else loading">
+    <table *ngIf="allSessions.length; else noData">
+      <thead>
+      <tr>
+        <th>Session Date</th>
+        <th>Duration</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of allSessions?.slice()?.reverse()">
+        <td data-column="Session Date">{{item.sessionDate | date:'medium' }}</td>
+        <td data-column="Duration">{{item.duration || 'Unavailable'}}</td>
+        <td data-column="Play">
+          <div class="buttons">
+            <button class="btn play"
+                    [class.disabled]="!item.duration"
+                    (click)="showPlayer(item)">
+              Play
+            </button>
+            <button class="btn delete"
+                    (click)="deleteSession(item)">
+              Delete
+            </button>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <ng-template #noData>
+      <br>
+      No Data Available
+    </ng-template>
+  </div>
+  <ng-template #loading>
+    <br>
+    <h3>Loading...</h3>
+  </ng-template>
+</div>
+

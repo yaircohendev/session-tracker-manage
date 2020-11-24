@@ -1,0 +1,40 @@
+.container {
+  padding: 16px;
+  margin-top: 20px;
+  text-align: center;
+
+  table {
+    width: 750px;
+    border-collapse: collapse;
+    margin: 20px auto;
+  }
+
+  tr:nth-of-type(odd) {
+    background: #eee;
+  }
+
+  th {
+    background: #3498db;
+    color: white;
+    font-weight: bold;
+  }
+
+  td, th {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+    font-size: 18px;
+  }
+
+  .buttons {
+    text-align: center;
+
+    .play {
+      background-color: #bedbbb;
+    }
+
+    .delete {
+      background-color: #c05555;
+    }
+  }
+}

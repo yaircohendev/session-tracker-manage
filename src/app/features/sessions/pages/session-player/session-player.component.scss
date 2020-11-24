@@ -1,0 +1,91 @@
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  margin-top: 20px;
+
+  .session-details {
+    margin-bottom: 10px;
+    border-radius: 6px;
+    display: flex;
+    .info {
+      border: 1px solid rgba(0,0,0,.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 16px;
+      margin: 0 12px;
+    }
+  }
+
+  .settings {
+    .range-slider {
+      margin-top: 12px;
+    }
+  }
+
+  .title {
+    margin-bottom: 12px;
+  }
+
+  .player {
+    width: 80vw;
+    height: 70vh;
+    padding: 16px;
+    position: relative;
+    border: 4px solid rgba(0, 0, 0, .2);
+
+    .content {
+      .mouse-container {
+        position: absolute;
+        transition: 0.1s;
+
+        .mouse {
+          width: 20px;
+        }
+      }
+    }
+  }
+
+  .buttons {
+    img {
+      width: 64px;
+      cursor: pointer;
+
+      &:hover {
+        opacity: .8;
+        transition: .5s;
+      }
+    }
+  }
+}
+
+div.clickEffect {
+  position: fixed;
+  box-sizing: border-box;
+  border-style: solid;
+  border-color: #000000;
+  border-radius: 50%;
+  animation: clickEffect 0.4s ease-out;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes clickEffect {
+  0% {
+    opacity: 1;
+    width: 0.5em;
+    height: 0.5em;
+    border-width: 0.5rem;
+    margin-top: -70px;
+  }
+  100% {
+    opacity: 0.2;
+    width: 15em;
+    height: 15em;
+    margin-top: -70px;
+    border-width: 0.03rem;
+  }
+}

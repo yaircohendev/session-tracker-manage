@@ -1,0 +1,11 @@
+<div class="container">
+  <header>
+    <h3 class="logo" (click)="router.navigate(['/sessions'])">SessionsManager</h3>
+    <div class="menu-items">
+      <div class="menu-item" *ngFor="let item of menuItems"
+           (click)="router.navigate([item.path])">
+        {{item.name}}
+      </div>
+    </div>
+  </header>
+</div>

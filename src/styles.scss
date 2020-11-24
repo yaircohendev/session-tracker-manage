@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: Tahoma, sans-serif;
+}
+.btn {
+  outline: none;
+  border: 1px solid rgba(0,0,0,.1);
+  padding: 8px 16px;
+  border-radius: 16px;
+  cursor: pointer;
+  margin: 0 5px;
+  color: #fff;
+  &:hover {
+    opacity: .8;
+  }
+}
+.disabled {
+  pointer-events: none;
+  opacity: .6;
+  transition: .25s;
+}
