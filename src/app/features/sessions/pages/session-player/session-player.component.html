@@ -35,6 +35,11 @@
         <span>Time left: &nbsp;</span>
         <span>{{timeLeft$ | async}}</span>
       </div>
+      <div class="size" *ngIf="latestViewPortSize$ | async; let latestViewSize">
+        <br>
+        <p>Width: {{latestViewSize.x}}</p>
+        <p>Height: {{latestViewSize.y}}</p>
+      </div>
       <div class="mouse-container"
            #mouseContainer
            [style.top.px]="currentItem.data.y"

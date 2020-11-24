@@ -11,7 +11,7 @@ import { UserEvent } from '../../models/sessions.model';
 import { BehaviorSubject, Observable, Subscription, timer } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { SessionsService } from '../../services/sessions.service';
-import { finalize, map, takeWhile, tap } from 'rxjs/operators';
+import { map, takeWhile, tap } from 'rxjs/operators';
 
 interface Item {
   index: number;
@@ -38,6 +38,7 @@ export class SessionPlayerComponent implements AfterViewInit, OnDestroy {
   loading$ = new BehaviorSubject(true);
   enableClickSound = true;
   sessionSpeed$ = new BehaviorSubject(100);
+  latestViewPortSize$ = new BehaviorSubject<UserEvent | null>(null);
   @ViewChild('player') player: ElementRef;
   @ViewChild('mouseContainer') mouseContainer: ElementRef;
 
@@ -58,6 +59,7 @@ export class SessionPlayerComponent implements AfterViewInit, OnDestroy {
     this.sessionsService.getSpecificSession(sessionId).subscribe(
       (sessionItem) => {
         this.sessionEvents = sessionItem.sessions;
+        this.latestViewPortSize$.next(this.sessionEvents[0]);
         this.timeLeft$.next(sessionItem.duration as number);
         this.sessionDuration = sessionItem.duration as number;
         this.sessionDate = new Date(sessionItem.sessionDate);
@@ -74,23 +76,28 @@ export class SessionPlayerComponent implements AfterViewInit, OnDestroy {
       const index = currentItem && !hasFinishedPlaying ? currentItem.index : 0;
       (async () => {
         for (let i = index || 0; i < this.sessionEvents.length; i++) {
+          const session = this.sessionEvents[i];
           if (!this.isPlaying$.getValue()) {
             return;
           }
-          const currentItem = { index: i, data: this.getItemWithCoordinates(this.sessionEvents[i]) };
+          if (session.type === 'VIEWPORT_SIZE') {
+            this.latestViewPortSize$.next(session);
+          }
+          const currentItem = { index: i, data: this.getItemWithCoordinates(session) };
           const speed = this.sessionSpeed$.getValue() / 100;
           const timeDifference = this.sessionEvents[i + 1]?.time_stamp - currentItem.data.time_stamp;
           observer.next(currentItem);
           await new Promise((r) => setTimeout(r, timeDifference / speed));
         }
         this.isPlaying$.next(false);
+        this.latestViewPortSize$.next(this.sessionEvents[0]);
         observer.complete();
       })();
     });
   }
 
   getItemWithCoordinates(item: UserEvent): UserEvent {
-    const { x: recordingWidth, y: recordingHeight } = this.sessionEvents[0];
+    const { x: recordingWidth, y: recordingHeight } = this.latestViewPortSize$.getValue() as UserEvent;
     const playerHeight = this.player.nativeElement.clientHeight;
     const playerWidth = this.player.nativeElement.clientWidth;
     const divideByHeight = recordingHeight / playerHeight;
